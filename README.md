@@ -1,6 +1,6 @@
 # music-library-rest-api
 
-##Intro
+## Intro
 This is a REST api that allows for access to database.
 ## Usage
 1. /api/admin
