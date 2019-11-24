@@ -2,7 +2,7 @@
   "name": "lab5-api",
   "version": "1.0.0",
   "description": "## Intro This is a REST api that allows for access to database. ## Usage 1. /api/admin Requires admin privileges",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
