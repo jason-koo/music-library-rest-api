@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/jason-koo/music-library-rest-api/issues"
   },
-  "homepage": "https://github.com/jason-koo/music-library-rest-api#readme"
+  "homepage": "https://github.com/jason-koo/music-library-rest-api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
