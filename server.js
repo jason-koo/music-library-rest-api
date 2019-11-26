@@ -6,4 +6,6 @@ const port = process.env.PORT || 3001;
 
 const server = http.createServer(app);
 
-server.listen(port);
+server.listen(port, () => {
+    console.log('listening on port' + port);
+});
