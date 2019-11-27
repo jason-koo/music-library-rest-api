@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 // import admin route
 const adminRoutes = require('./api/routes/admin');
 // import secure route
-const secureUserRoutes = require('./api/routes/secureUser');
+const authUserRoutes = require('./api/routes/authUser');
 // import open route
 const openUserRoutes = require('./api/routes/openUser');
 
@@ -48,7 +48,7 @@ app.use((req, res, next) => {
 
 // set routes
 app.use('/api/admin', adminRoutes);
-app.use('/api/secureUser', secureUserRoutes);
+app.use('/api/authUser', authUserRoutes);
 app.use('/api/openUser', openUserRoutes);
 
 

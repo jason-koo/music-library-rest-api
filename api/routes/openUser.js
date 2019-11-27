@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/',(req, res, next) => {
+router.get('/home',(req, res, next) => {
     res.status(200).json({
         message: 'All paths will not require authentication to access the api.'
     });
