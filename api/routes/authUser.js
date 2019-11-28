@@ -3,9 +3,8 @@ const router = express.Router();
 const mongoose = require('mongoose')
 const Song = require('../models/song')
 const User = require('../models/user');
-const { registerValidation } = require('../../validation');
+const { registerValidation, loginValidation } = require('../../validation');
 const bcrypt = require('bcryptjs');
-
 
 // REGISTER
 router.post('/register', async (req, res) => {
@@ -32,10 +31,27 @@ router.post('/register', async (req, res) => {
     });
     try{
         const savedUser = await user.save();
-        res.send(savedUser);
+        res.send({user: user._id});
     }catch (err) {
         res.status(400).send(err);
     }
+});
+
+// ROUTE FOR
+router.post('/login', async (req, res) => {
+    // VALIDATE DATA BEFORE CREAING USER
+    const { error } = loginValidation(req.body);
+    if(error) { return res.status(400).send(error.details[0].message); }
+     // CHECK IF THE USER IS ALREADY IN THE DATABASE
+    const user = await User.findOne({email: req.body.email});
+    if(!user) { return res.status(400).send('Email or password is incorrect'); }
+    // CHECK IF PASSWORD IS CORRECT
+    const validPassword =  await bcrypt.compare(req.body.password, user.password);
+    if(!validPassword){ return res.status(400).send("Invalid password")}
+
+    res.send('Logged in');
+
+
 });
 
 router.get('/',(req, res, next) => {
