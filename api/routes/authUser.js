@@ -5,18 +5,32 @@ const Song = require('../models/song')
 const User = require('../models/user');
 
 
+// VALIDATION
+ const Joi = require('@hapi/joi');
+ const schema = {
+     username: Joi.string()
+     .min(6)
+     .required(),
+     email: Joi.string().min(6).required().email(),
+     password: Joi.string().min(6).required()
+ };
+
+
 router.post('/register', async (req, res) => {
+    // VALIDATE DATA BEFORE CREAING USER
+    const { error } = Joi.validate(req.body, schema);
+    if(error) return res.status(400).send(error.details[0].message);
+    //res.send(error.details[0].message);
+
     const user = new User({
-        _id: new mongoose.Types.ObjectId(),
         username: req.body.username,
         email: req.body.email,
         password: req.body.password
-    })
-    try{
+    });
+    try {
         const savedUser = await user.save();
         res.send(savedUser);
-
-    }catch(err){
+    } catch (err) {
         res.status(400).send(err);
     }
 });
