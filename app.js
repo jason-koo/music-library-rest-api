@@ -20,13 +20,6 @@ db.connect(() => {
     });
 });
 
-/*mongoose.connect(
-    'mongodb+srv://jasonkoo-lab5:'+ process.env.PASSWORD +'@testcluster-hngww.mongodb.net/test?retryWrites=true&w=majority',
-    {
-        useMongoClient: true
-    }
-);*/
-
 
 // use body-parser for user inputs
 app.use(bodyParser.urlencoded({extended: false}));

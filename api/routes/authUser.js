@@ -4,12 +4,9 @@ const mongoose = require('mongoose')
 const Song = require('../models/song')
 
 
+const verify = require('./verifyToken');
 
-
-
-
-
-router.get('/',(req, res, next) => {
+router.get('/', verify, (req, res) => {
     res.status(200).json({
         message: 'All paths will require authentication as a regular user.'
     });
@@ -21,7 +18,7 @@ router.put('/song',(req, res, next) => {
     });
 });
 
-router.post('/',(req, res, next) => {
+router.post('/something',(req, res, next) => {
     res.status(200).json({
         message: 'Updates the record of the given song ID with JSON array of properties sent in the body'
     });

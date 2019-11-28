@@ -59,13 +59,16 @@ router.post('/login', async (req, res) => {
 });
 
 
-router.get('/home',(req, res, next) => {
+// Home page
+router.get('/',(req, res, next) => {
     res.status(200).json({
         message: 'All paths will not require authentication to access the api.'
     });
 });
 
-router.get('/song',(req, res, next) => {
+
+// Returns a list of songs, top 10
+router.get('/songs',(req, res, next) => {
     res.status(200).json({
         message: 'Returns a list of 10 songs ordered by' +
          'average rating. Optionally, you may pass a query' +
@@ -73,12 +76,16 @@ router.get('/song',(req, res, next) => {
     });
 });
 
+
+// search for songs
 router.get('/song/search', (req, res, next) => {
     res.status(200).json({
         message: 'Returns a list of songs matching the search criteria provided as query parameters'
     });
 });
 
+
+// gets all the reviews for a song
 router.get('/song/reviews/:id', (req, res, next) => {
     res.status(200).json({
         message: 'Returns all reviews for a given song ID'
