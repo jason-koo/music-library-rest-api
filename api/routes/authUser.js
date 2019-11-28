@@ -3,34 +3,37 @@ const router = express.Router();
 const mongoose = require('mongoose')
 const Song = require('../models/song')
 const User = require('../models/user');
+const { registerValidation } = require('../../validation');
+const bcrypt = require('bcryptjs');
 
 
-// VALIDATION
- const Joi = require('@hapi/joi');
- const schema = {
-     username: Joi.string()
-     .min(6)
-     .required(),
-     email: Joi.string().min(6).required().email(),
-     password: Joi.string().min(6).required()
- };
-
-
+// REGISTER
 router.post('/register', async (req, res) => {
     // VALIDATE DATA BEFORE CREAING USER
-    const { error } = Joi.validate(req.body, schema);
-    if(error) return res.status(400).send(error.details[0].message);
-    //res.send(error.details[0].message);
+    const { error } = registerValidation(req.body);
+    if(error) {
+        return res.status(400).send(error.details[0].message);
+    }
+    // CHECK IF THE USER IS ALREADY IN THE DATABASE
+    const emailExist = await User.findOne({email: req.body.email});
+    if(emailExist) { 
+        return res.status(400).send('Email already exists')
+    }
 
+    // HASH PASSWORDS
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+    // CREATE NEW USER
     const user = new User({
         username: req.body.username,
         email: req.body.email,
-        password: req.body.password
+        password: hashedPassword
     });
-    try {
+    try{
         const savedUser = await user.save();
         res.send(savedUser);
-    } catch (err) {
+    }catch (err) {
         res.status(400).send(err);
     }
 });
