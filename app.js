@@ -32,7 +32,8 @@ db.connect(() => {
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-
+// Middleware
+app.use(express.json());
 
 // CORS handling
 /*app.use((req, res, next) => {
