@@ -5,6 +5,7 @@ const Song = require('../models/song')
 const User = require('../models/user');
 const { registerValidation, loginValidation } = require('../../validation');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 // REGISTER
 router.post('/register', async (req, res) => {
@@ -49,8 +50,9 @@ router.post('/login', async (req, res) => {
     const validPassword =  await bcrypt.compare(req.body.password, user.password);
     if(!validPassword){ return res.status(400).send("Invalid password")}
 
-    res.send('Logged in');
-
+    //CREATE AND ASSIGN A TOKEN
+    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
+    res.header('auth-token').send(token);
 
 });
 
