@@ -18,6 +18,9 @@ router.post('/register', async (req, res) => {
     if(emailExist) { 
         return res.status(400).send('Email already exists')
     }
+    // CHECK FOR USERNAME DUPLICATES
+    const userExists = await User.findOne({username: req.body.username});
+    if(userExists) {return res.status(400).send('Username has already been taken');}
 
     // HASH PASSWORDS
     const salt = await bcrypt.genSalt(10);
