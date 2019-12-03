@@ -20,7 +20,7 @@ router.put('/song',(req, res, next) => {
 });
 
 
-router.post('/add-song', async (req, res) => {
+router.post('/add-song', verify, async (req, res) => {
 
     const song = new Song({
         objectID: req.body.objectID,
@@ -41,9 +41,22 @@ router.post('/add-song', async (req, res) => {
     }
 });
 
+function update(objID, rating){
+    Song.update({objectID: objID}, {"$set": {"avgRating": rating}})
+            .then(docs => {
+                res.status(200).json(docs);
+                res.send(docs)
+            })
+            .catch(err => {
+                res.status(400).json({
+                error: err
+            })
+        })
+}
 
 router.post('/add-review/:objID', async (req, res) => {
-
+    
+ 
     const review = new Review({
         _id: new mongoose.Types.ObjectId(),
         objectID: req.params.objID,
@@ -55,9 +68,33 @@ router.post('/add-review/:objID', async (req, res) => {
     try {
         const savedReview = await review.save();
         res.send({review})
+        update(req.params.objID, req.body.rating)
+        
     } catch (err) {
         res.status(400).send(err);
     }
+
+    Review.find({objectID: objID})
+    .exec()
+    .then(docs => {
+        if(err) {
+            console.log("Error" + JSON.stringify(err, undefined, 2));
+        } else {
+            var arr =[]
+            
+            arr = docs
+
+            for(var i = 0; i < arr.length; i++) {
+                total += arr[i]['rating'];
+            }
+            avg = total/arr.length;
+            
+        }
+        
+    });
+
 });
+
+
 
 module.exports = router;
