@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
+const path = require('path');
+
 
 const reviewSchema = new mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
     objectID: {
         type: Number,
-        unique: true
+        unique: false
     },
     rating: {
         type: Number
@@ -18,9 +21,6 @@ const reviewSchema = new mongoose.Schema({
     },
     description: {
         type: String
-    },
-    avgRating: {
-        type: Number
     }
 });
 
