@@ -3,16 +3,16 @@ const mongoose = require('mongoose')
 const songSchema = mongoose.Schema({
     objectID: {
         type: Number,
-        require: true,
+        required: true,
         unique: true
     },
     title: {
         type: String,
-        require: true
+        required: true
     },
     artist: {
         type: String,
-        require: true
+        required: true
     },
     album: {
         type: String

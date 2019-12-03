@@ -20,7 +20,7 @@ router.put('/song',(req, res, next) => {
 });
 
 
-router.post('/add-song', verify, async (req, res) => {
+router.post('/add-song', async (req, res) => {
 
     const song = new Song({
         objectID: req.body.objectID,
